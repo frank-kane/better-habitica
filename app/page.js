@@ -1,9 +1,12 @@
+"use client";
 import Image from 'next/image'
 import styles from './page.module.css'
 import dailyData from './daily-data'
 import Daily from './daily'
+import AnimationComponent  from './animation-test'
 
-//import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 export default function Home() {
 
   const allDailys = dailyData.map(daily => {
@@ -19,11 +22,13 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
       
-          
+      
             <div>
+              
               {allDailys}
+              <AnimationComponent />
             </div>
-          
+            
         
         
          
