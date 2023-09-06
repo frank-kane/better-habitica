@@ -9,13 +9,20 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
 
-  const allDailys = dailyData.map(daily => {
+  const allDailys = dailyData.user.dailys.map(daily => {
     return <Daily title={daily.title}
      streak={daily.streak}
       iscompleted = {daily.iscompleted}
       //backgroundColor={daily.iscompleted = false ? "red" : "green"}
         />
 })
+
+
+
+function handleCLick(){
+  console.log('Handled Click')
+
+}
 
 
   return (
@@ -27,6 +34,7 @@ export default function Home() {
               
               {allDailys}
               <AnimationComponent />
+              <button onClick={handleCLick}>CLick Me</button>
             </div>
             
         
