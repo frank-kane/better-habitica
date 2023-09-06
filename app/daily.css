@@ -1,0 +1,18 @@
+.daily-false{
+    background-color: lightcoral;
+    margin: 1%;
+}
+
+.daily-true{
+    background-color: lightgreen;
+    margin: 1%;
+
+}
+
+.daily-true:hover{
+    border-style: solid;
+}
+
+.daily-false:hover{
+    border-style: solid;
+}

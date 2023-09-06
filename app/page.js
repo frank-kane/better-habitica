@@ -13,7 +13,6 @@ export default function Home() {
     return <Daily title={daily.title}
      streak={daily.streak}
       iscompleted = {daily.iscompleted}
-      //backgroundColor={daily.iscompleted = false ? "red" : "green"}
         />
 })
 
@@ -30,7 +29,7 @@ function handleCLick(){
       <div className={styles.description}>
       
       
-            <div>
+            <div className={styles.content}>
               
               {allDailys}
               <AnimationComponent />

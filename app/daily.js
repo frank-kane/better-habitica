@@ -1,11 +1,10 @@
 import React from "react"
+import "./daily.css"
 
 export default function Daily(props) {
     if(props.iscompleted == false){
         return(
-            <div
-        style = {{backgroundColor : "red"}}
-        >
+            <div className="daily-false">
         <img src="/vercel.svg" alt="" />
             <h3>{props.title}</h3>
             <p>Streak: {props.streak}</p>
@@ -16,9 +15,7 @@ export default function Daily(props) {
         )
     }else{
         return(
-            <div
-        style = {{backgroundColor : "green"}}
-        >
+            <div className="daily-true">
         <img src="/vercel.svg" alt="" />
             <h3>{props.title}</h3>
             <p>Streak: {props.streak}</p>
