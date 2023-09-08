@@ -41,11 +41,18 @@ const allDailys = dailys.map(daily => (
     <main className={styles.main}>
        <h1 className={styles.name}>User: {userData.user.name}</h1>
         <h3 className={styles.lvl}>Lvl: {userData.user.Lvl}</h3>
-      
+        <h3 className={styles.lvl}>Exp: {userData.user.exp}</h3>
+        <h4 className={styles.lvl}>|{'-'.repeat(userData.user.exp)}|</h4>
             <div className={styles.content}>
               
               
-              {allDailys}
+              <img src="/character.png" alt="" width="250" height="400" className='character' />
+              
+                
+                {allDailys}
+              
+              
+              
             </div>
             <div>
               
