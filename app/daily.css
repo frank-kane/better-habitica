@@ -2,24 +2,27 @@
     background-color: lightcoral;
     margin: 1%;
     font-weight: bold;
+    border-radius: 5%;
 }
 
 .daily-true{
     background-color: lightgreen;
     margin: 1%;
     font-weight: bold;
+    border-radius: 5%;
 
 }
 
 .daily-true:hover{
     .skull{
-        background-color: red;
-        border-radius: 60%;
+        transition:all 0.3s ease-in-out;
+        filter:grayscale();
     }
 }
 
 .daily-false:hover{
     .skull{
+        transition:all 0.3s ease-in-out;
         background-color: green;
         border-radius: 60%;
     }
@@ -29,5 +32,6 @@
 .skull{
     max-width: 50px;
     max-height: 50px;
+    margin-left: 30%;
     
   }

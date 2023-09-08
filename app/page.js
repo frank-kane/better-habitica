@@ -10,34 +10,31 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
 
-  const dailyOneInfo = userData.user.dailys[0];
+  const [dailys, setDailys] = React.useState(userData.user.dailys);
 
-  const [firstDaily, setfirstDaily] = React.useState({
-    title: dailyOneInfo.title,
-    streak: dailyOneInfo.streak,
-    iscompleted: dailyOneInfo.iscompleted
+
+function toggleCompleted(id){
+  console.log('handle daily click')
+
+  setDailys(prevDaily =>{
+    return prevDaily.map((daily) => {
+      console.log(daily.streak)
+        
+      return daily.id === id ? {...daily, iscompleted: !daily.iscompleted , streak: daily.iscompleted ? daily.streak -1 : daily.streak +1    } 
+    : daily})
   })
 
- 
-  const allDailys = userData.user.dailys.map(daily => {
-    return <Daily title={daily.title}
-     streak={daily.streak}
-      iscompleted = {daily.iscompleted}
-      
-        />
-})
-
-
-
-function toggleCompleted(){
-  console.log('handle daily click')
-  setfirstDaily(prevDaily => ({
-    ...prevDaily,
-    streak: prevDaily.iscompleted ? prevDaily.streak-1 : prevDaily.streak+1,
-    iscompleted: !prevDaily.iscompleted
-  }))
-
 }
+
+const allDailys = dailys.map(daily => (
+  <Daily
+  id = {daily.id}
+   title={daily.title}
+   streak={daily.streak}
+    iscompleted = {daily.iscompleted}
+    toggleCompleted = {toggleCompleted}
+      />
+))
 
 
   return (
@@ -47,12 +44,8 @@ function toggleCompleted(){
       
             <div className={styles.content}>
               
+              
               {allDailys}
-              <br/>
-              <Daily title={firstDaily.title}
-               streak = {firstDaily.streak}
-                iscompleted = {firstDaily.iscompleted}
-                 handleClick = {toggleCompleted}/>
             </div>
             <div>
               
