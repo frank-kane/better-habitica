@@ -1,19 +1,23 @@
 import React from "react"
 import "./daily.css"
 
+
 export default function Daily(props) {
-    function handleClick(){
-        if(props.iscompleted == false){
-            console.log('daily Completed')
-        }else if(props.iscompleted == true){
-            console.log('daily Incomplete')
-        }
+
+    // function handleClick(){
+    //     if(props.iscompleted == false){
+    //         console.log('daily Completed')
+    //         props.iscompleted == true
+    //     }else if(props.iscompleted == true){
+    //         console.log('daily Incomplete')
+    //         props.iscompleted == false
+    //     }
         
-    }
+    // }
     if(props.iscompleted == false){
         return(
-            <div className="daily-false" onClick={handleClick}  >
-        <img src="/vercel.svg" alt="" />
+            <div className="daily-false" onClick={props.handleClick}  >
+        <img src="/skull-image.png" alt="" className="skull" />
             <h3>{props.title}</h3>
             <p>Streak: {props.streak}</p>
             <p>is completed: {String(props.iscompleted)}</p>
@@ -23,8 +27,8 @@ export default function Daily(props) {
         )
     }else{
         return(
-            <div className="daily-true" onClick={handleClick}>
-        <img src="/vercel.svg" alt="" />
+            <div className="daily-true" onClick={props.handleClick}>
+        <img src="/skull-image.png" alt="" className='skull' />
             <h3>{props.title}</h3>
             <p>Streak: {props.streak}</p>
             <p>is completed: {String(props.iscompleted)}</p>

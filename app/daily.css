@@ -1,18 +1,33 @@
 .daily-false{
     background-color: lightcoral;
     margin: 1%;
+    font-weight: bold;
 }
 
 .daily-true{
     background-color: lightgreen;
     margin: 1%;
+    font-weight: bold;
 
 }
 
 .daily-true:hover{
-    border-style: solid;
+    .skull{
+        background-color: red;
+        border-radius: 60%;
+    }
 }
 
 .daily-false:hover{
-    border-style: solid;
+    .skull{
+        background-color: green;
+        border-radius: 60%;
+    }
+    
 }
+
+.skull{
+    max-width: 50px;
+    max-height: 50px;
+    
+  }
