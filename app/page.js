@@ -19,6 +19,11 @@ export default function Home() {
     exp: 0,
     dailys: []
   })
+
+  const [docID, setDocID] = React.useState('Temp')
+
+
+  //==================================functions=======================================//
   
 
   const fetchPost = async () => {
@@ -39,14 +44,15 @@ export default function Home() {
       exp: docData.exp,
       dailys: docData.dailys
     })
-    console.log(documentID);
-    console.log(docData.name)
-    console.log(user)
+    setDocID(documentID);
+    console.log('Doc Id: '+ documentID);
+    console.log('User name: '+docData.name)
+    //console.log(user)
 
   
   }
     fetchPost();
-    // console.log(docData)   
+      
     
 
  
@@ -65,6 +71,34 @@ export default function Home() {
     })
 
   }
+
+  const updateDoc = async(index) => {
+    index = 2;
+    console.log('Update Doc')
+    console.log('DocID: '+docID)
+
+    const docRef = doc(db, "users", docID);
+    const docSnap = await getDoc(docRef)
+    const docData = docSnap.data();
+    console.log("Name 2: "+docData.name)
+    const dailyRef = docData.dailys[1]
+    console.log(dailyRef.iscompleted)
+    //const docSnap = await getDoc(docRef);
+    await updateDoc(dailyRef, {
+      'iscompleted': true
+    });
+    
+  }
+
+  const allDailysDataBase = user.dailys.map(daily => (
+    <Daily
+    id = {daily.id}
+    title={daily.title}
+    streak={daily.streak}
+      iscompleted = {daily.iscompleted}
+      toggleCompleted = {updateDoc}
+        />
+  ))
 
   const allDailys = dailys.map(daily => (
     <Daily
@@ -90,7 +124,8 @@ export default function Home() {
               
                 
                 {allDailys}
-              
+                <h1>|</h1>
+                {allDailysDataBase}
               
               
             </div>
