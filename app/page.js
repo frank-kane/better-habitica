@@ -13,8 +13,12 @@ import { useState, useEffect } from 'react';
 export default function Home() {
 
   const [dailys, setDailys] = React.useState(userData.user.dailys);
-  const [docData, setDocData] = React.useState();
-
+  const [user, setUser] = React.useState({
+    name: '',
+    lvl: 0,
+    exp: 0,
+    dailys: []
+  })
   
 
   const fetchPost = async () => {
@@ -27,19 +31,25 @@ export default function Home() {
       
       documentID = doc.id
       docData = doc.data()
-    });
-    setDocData(docData);
-    console.log(documentID);
-    console.log(docData.name);
-  
-}
       
+    });
+    setUser({
+      name: docData.name,
+      lvl: docData.lvl,
+      exp: docData.exp,
+      dailys: docData.dailys
+    })
+    console.log(documentID);
+    console.log(docData.name)
+    console.log(user)
+
+  
+  }
+    fetchPost();
+    // console.log(docData)   
     
 
-  useEffect(()=>{
-      fetchPost();
-      console.log(docData)
-  }, [])
+ 
 
   
 
@@ -69,10 +79,10 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-       <h1 className={styles.name}>User: {userData.user.name}</h1>
-        <h3 className={styles.lvl}>Lvl: {userData.user.Lvl}</h3>
-        <h3 className={styles.lvl}>Exp: {userData.user.exp}</h3>
-        <h4 className={styles.lvl}>|{'-'.repeat(userData.user.exp)}|</h4>
+       <h1 className={styles.name}>User: {user.name}</h1>
+        <h3 className={styles.lvl}>Lvl: {user.lvl}</h3>
+        <h3 className={styles.lvl}>Exp: {user.exp}</h3>
+        <h4 className={styles.lvl}>|{'-'.repeat(user.exp)}|</h4>
             <div className={styles.content}>
               
               
