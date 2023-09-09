@@ -10,107 +10,84 @@ import { db } from './firebase-config'
 
 import { useState, useEffect } from 'react';
 
+
+
+
+
+
 export default function Home() {
 
-  const [dailys, setDailys] = React.useState(userData.user.dailys);
-  const [user, setUser] = React.useState({
-    name: '',
-    lvl: 0,
-    exp: 0,
-    dailys: []
-  })
+  
+  const [user, setUser] = React.useState({ })
 
-  const [docID, setDocID] = React.useState('Temp')
 
 
   //==================================functions=======================================//
   
 
-  const fetchPost = async () => {
-    var documentID = 'Temp';
-    var docData;
-    const collectionRef = collection(db,'users');
-    const docref = query(collectionRef, where('name', '==','Kane'))
-    const querySnapshot = await getDocs(docref);
-    querySnapshot.forEach((doc) => {
-      
-      documentID = doc.id
-      docData = doc.data()
-      
-    });
-    setUser({
-      name: docData.name,
-      lvl: docData.lvl,
-      exp: docData.exp,
-      dailys: docData.dailys
-    })
-    setDocID(documentID);
-    console.log('Doc Id: '+ documentID);
-    console.log('User name: '+docData.name)
-    //console.log(user)
-
   
-  }
-    fetchPost();
-      
     
+      
+    useEffect(() => {
+      //Runs only on the first render
+      async function fetchPost() {
+        var documentID = 'Temp';
+        var docData;
+        const collectionRef = collection(db,'users');
+        const docref = query(collectionRef, where('name', '==','Volkor'))
+        const querySnapshot = await getDocs(docref);
+        querySnapshot.forEach((doc) => {
+          
+          documentID = doc.id
+          docData = doc.data()
+          console.log(docData.dailys)
+          console.log('Document ID: ' + documentID)
+          setUser(docData)
+
+          
+        });
+      }
+      fetchPost();
+    }, []); 
 
  
 
-  
-
-  function toggleCompleted(id){
-    console.log('handle daily click')
-
-    setDailys(prevDaily =>{
-      return prevDaily.map((daily) => {
-        console.log(daily.streak)
-          
-        return daily.id === id ? {...daily, iscompleted: !daily.iscompleted , streak: daily.iscompleted ? daily.streak -1 : daily.streak +1    } 
-      : daily})
-    })
-
-  }
-
-  const updateDoc = async(index) => {
-    index = 2;
+  async function updateDoc(index){
     console.log('Update Doc')
-    console.log('DocID: '+docID)
+    console.log(user)
+    console.log('DocID: '+user.id)
 
-    const docRef = doc(db, "users", docID);
+    const docRef = doc(db, "users", user.id);
     const docSnap = await getDoc(docRef)
     const docData = docSnap.data();
     console.log("Name 2: "+docData.name)
-    const dailyRef = docData.dailys[1]
-    console.log(dailyRef.iscompleted)
-    //const docSnap = await getDoc(docRef);
-    await updateDoc(dailyRef, {
-      'iscompleted': true
-    });
+    const dailyRef = docData.dailys[index]
+    console.log(dailyRef)
+    // await updateDoc(dailyRef, {
+    //   id: dailyRef.id,
+    //   title: dailyRef.title,
+    //   streak: dailyRef.streak,
+    //   iscompleted: true
+    // });
     
   }
 
   const allDailysDataBase = user.dailys.map(daily => (
     <Daily
+    key = {daily.id}
     id = {daily.id}
     title={daily.title}
     streak={daily.streak}
       iscompleted = {daily.iscompleted}
-      toggleCompleted = {updateDoc}
-        />
-  ))
-
-  const allDailys = dailys.map(daily => (
-    <Daily
-    id = {daily.id}
-    title={daily.title}
-    streak={daily.streak}
-      iscompleted = {daily.iscompleted}
-      toggleCompleted = {toggleCompleted}
+      toggleCompleted = {()=>updateDoc(daily.id-1)}
         />
   ))
 
 
+
+
+
+  //===================return================================//
   return (
     <main className={styles.main}>
        <h1 className={styles.name}>User: {user.name}</h1>
@@ -120,14 +97,13 @@ export default function Home() {
             <div className={styles.content}>
               
               
-              <img src="/character.png" alt="" width="250" height="400" className='character' />
+              <img src="/anime-guy.jpg" alt="" width="250" height="400" className='character' />
               
                 
-                {allDailys}
+               
                 <h1>|</h1>
                 {allDailysDataBase}
-              
-              
+                <h1>|</h1>
             </div>
             <div>
               
