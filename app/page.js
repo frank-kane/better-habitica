@@ -66,7 +66,7 @@ console.log('daily id to update: '+dailyIdToUpdate)
           const updatedDailys = userData.dailys.map((daily) => {
             if (daily.id === dailyIdToUpdate) {
               // Update the "iscompleted" field to false
-              return { ...daily, iscompleted: !daily.iscompleted };
+              return { ...daily, iscompleted: !daily.iscompleted, streak: daily.iscompleted ? daily.streak-1 : daily.streak+1 };
             }
             return daily;
           });
