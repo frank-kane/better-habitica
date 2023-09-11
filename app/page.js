@@ -5,7 +5,7 @@ import userData from './user-data'
 import Daily from './daily'
 import AnimationComponent  from './animation-test'
 import React from "react"
-import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from './firebase-config'
 
 import { useState, useEffect } from 'react';
@@ -41,7 +41,7 @@ export default function Home() {
           documentID = doc.id
           docData = doc.data()
           console.log(docData.dailys)
-          console.log('Document ID: ' + documentID)
+          console.log('Document ID: ' + doc.id)
           setUser(docData)
 
           
@@ -52,34 +52,55 @@ export default function Home() {
 
  
 
-  async function updateDoc(index){
-    console.log('Update Doc')
-    console.log(user)
-    console.log('DocID: '+user.id)
-
-    const docRef = doc(db, "users", user.id);
+  async function updateDocFunction(index){
+    console.log('Index: '+index)
+    const docRef = doc(db, 'users', "meyWpeyXTzOV9GQOivZa");
+    const dailyIdToUpdate = index;
+console.log('daily id to update: '+dailyIdToUpdate)
     const docSnap = await getDoc(docRef)
-    const docData = docSnap.data();
-    console.log("Name 2: "+docData.name)
-    const dailyRef = docData.dailys[index]
-    console.log(dailyRef)
-    // await updateDoc(dailyRef, {
-    //   id: dailyRef.id,
-    //   title: dailyRef.title,
-    //   streak: dailyRef.streak,
-    //   iscompleted: true
-    // });
+      .then((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          console.log("User data inside update: \n"+userData.dailys[index].iscompleted)
+          // Find the daily task with the specified ID in the "dailys" array
+          const updatedDailys = userData.dailys.map((daily) => {
+            if (daily.id === dailyIdToUpdate) {
+              // Update the "iscompleted" field to false
+              return { ...daily, iscompleted: !daily.iscompleted };
+            }
+            return daily;
+          });
+
+          // Update the "dailys" array in the Firestore document
+          updateDoc(docRef, { dailys: updatedDailys }, { merge: true })
+            .then(() => {
+              console.log('Document successfully updated!');
+              window.location.reload(false)
+              
+            })
+            .catch((error) => {
+              console.error('Error updating document: ', error);
+            });
+        } else {
+          console.log('No such document!');
+        }
+      })
+      .catch((error) => {
+        console.error('Error getting document: ', error);
+      });
+
+      
     
   }
 
-  const allDailysDataBase = user.dailys.map(daily => (
+  const allDailysDataBase = user.dailys?.map(daily => (
     <Daily
     key = {daily.id}
     id = {daily.id}
     title={daily.title}
     streak={daily.streak}
       iscompleted = {daily.iscompleted}
-      toggleCompleted = {()=>updateDoc(daily.id-1)}
+      toggleCompleted = {()=>updateDocFunction(daily.id)}
         />
   ))
 
@@ -90,6 +111,8 @@ export default function Home() {
   //===================return================================//
   return (
     <main className={styles.main}>
+      <input type="text" />
+      <button onClick={null}>Sign In</button>
        <h1 className={styles.name}>User: {user.name}</h1>
         <h3 className={styles.lvl}>Lvl: {user.lvl}</h3>
         <h3 className={styles.lvl}>Exp: {user.exp}</h3>
